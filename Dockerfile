@@ -11,4 +11,25 @@ RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 581
 # add jenkins user to docker group
 RUN usermod -a -G docker jenkins
 
+# install ansible
+RUN echo "===> Installing python, sudo, and supporting tools..." && \
+  apt-get update -y  &&  apt-get install --fix-missing           && \
+  DEBIAN_FRONTEND=noninteractive         \
+  apt-get install -y                     \
+      python python-yaml sudo            \
+      curl gcc python-pip python-dev libffi-dev libssl-dev  && \
+  apt-get -y --purge remove python-cffi          && \
+  pip install --upgrade cffi                     && \
+  \
+  \
+  echo "===> Installing Ansible..."   && \
+  pip install ansible                 && \
+  \
+  \
+  echo "===> Removing unused APT resources..."                  && \
+  apt-get -f -y --auto-remove remove \
+               gcc python-pip python-dev libffi-dev libssl-dev  && \
+  apt-get clean                                                 && \
+  rm -rf /var/lib/apt/lists/*  /tmp/*
+
 USER jenkins
