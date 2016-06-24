@@ -24,6 +24,8 @@ RUN echo "===> Installing python, sudo, and supporting tools..." && \
   \
   echo "===> Installing Ansible..."   && \
   pip install ansible                 && \
+  echo "===> Installing aws cli..."   && \
+  pip install awscli                  && \
   \
   \
   echo "===> Removing unused APT resources..."                  && \
@@ -31,5 +33,8 @@ RUN echo "===> Installing python, sudo, and supporting tools..." && \
                gcc python-pip python-dev libffi-dev libssl-dev  && \
   apt-get clean                                                 && \
   rm -rf /var/lib/apt/lists/*  /tmp/*
+
+# install aws cli
+RUN apt-get update && apt-get install -y python-pip && pip install awscli
 
 USER jenkins
