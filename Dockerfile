@@ -22,19 +22,15 @@ RUN echo "===> Installing python, sudo, and supporting tools..." && \
   pip install --upgrade cffi                     && \
   \
   \
-  echo "===> Installing Ansible..."   && \
-  pip install ansible                 && \
-  echo "===> Installing aws cli..."   && \
-  pip install awscli                  && \
+  echo "===> Installing applications via pip..."   && \
+  pip install awscli ansible                       && \
+  pip install --upgrade setuptools pyasn1          && \
   \
   \
   echo "===> Removing unused APT resources..."                  && \
   apt-get -f -y --auto-remove remove \
-               gcc python-pip python-dev libffi-dev libssl-dev  && \
+               gcc python-dev libffi-dev libssl-dev  && \
   apt-get clean                                                 && \
   rm -rf /var/lib/apt/lists/*  /tmp/*
-
-# install aws cli
-RUN apt-get update && apt-get install -y python-pip && pip install awscli
 
 USER jenkins
