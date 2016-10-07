@@ -25,7 +25,7 @@ RUN echo "===> Installing python, sudo, and supporting tools..." && \
   \
   \
   echo "===> Installing applications via pip..."   && \
-  pip install awscli git+git://github.com/ansible/ansible.git@v2.1.1.0-0.3.rc3 && \
+  pip install awscli git+git://github.com/ansible/ansible.git@v2.2.0.0-0.1.rc1 && \
 #  pip install awscli ansible                       && \
   pip install --upgrade setuptools pyasn1          && \
   \
