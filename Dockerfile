@@ -12,11 +12,13 @@ RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 581
 RUN usermod -a -G docker jenkins
 
 # install ansible
+# libstdc++6 for hale GDAL binding
 RUN echo "===> Installing python, sudo, and supporting tools..." && \
   apt-get update -y  &&  apt-get install --fix-missing           && \
   DEBIAN_FRONTEND=noninteractive         \
   apt-get install -y                     \
-      python python-yaml sudo            \
+      python python-yaml sudo rsync      \
+      libstdc++6 \
       curl gcc python-pip python-dev libffi-dev libssl-dev  && \
   apt-get -y --purge remove python-cffi          && \
   pip install --upgrade cffi                     && \
