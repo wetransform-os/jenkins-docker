@@ -14,6 +14,7 @@ RUN usermod -a -G docker jenkins
 # install ansible
 # libstdc++6 for hale GDAL binding
 # genisoimage for hale macOS DMG image
+# pin Jinja2 to 2.8.1 b/c of https://github.com/ansible/ansible/issues/20494
 RUN echo "===> Installing python, sudo, and supporting tools..." && \
   apt-get update -y  &&  apt-get install --fix-missing           && \
   DEBIAN_FRONTEND=noninteractive         \
@@ -28,6 +29,7 @@ RUN echo "===> Installing python, sudo, and supporting tools..." && \
   echo "===> Installing applications via pip..."   && \
   pip install awscli git+git://github.com/ansible/ansible.git@v2.3.0.0-1 && \
   pip install --upgrade setuptools pyasn1          && \
+  pip install Jinja2==2.8.1                        && \
   \
   \
   echo "===> Removing unused APT resources..."                  && \
