@@ -35,4 +35,9 @@ RUN echo "===> Installing python, sudo, and supporting tools..." && \
   apt-get clean                                                 && \
   rm -rf /var/lib/apt/lists/*  /tmp/*
 
+# install go and set environment
+RUN apt-get install -y golang-go
+ENV GOPATH /var/jenkins_home/go
+ENV GOBIN $GOPATH/bin
+
 USER jenkins
