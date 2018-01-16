@@ -11,6 +11,11 @@ RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 581
 # add jenkins user to docker group
 RUN usermod -a -G docker jenkins
 
+# install go and set environment
+RUN apt-get install -y golang-go
+ENV GOPATH /var/jenkins_home/go
+ENV GOBIN $GOPATH/bin
+
 # install ansible
 # libstdc++6 for hale GDAL binding
 RUN echo "===> Installing python, sudo, and supporting tools..." && \
@@ -25,6 +30,7 @@ RUN echo "===> Installing python, sudo, and supporting tools..." && \
   \
   \
   echo "===> Installing applications via pip..."   && \
+  pip install --upgrade setuptools                 && \
   pip install awscli ansible                       && \
   pip install --upgrade setuptools pyasn1          && \
   \
@@ -34,10 +40,5 @@ RUN echo "===> Installing python, sudo, and supporting tools..." && \
                gcc python-dev libffi-dev libssl-dev  && \
   apt-get clean                                                 && \
   rm -rf /var/lib/apt/lists/*  /tmp/*
-
-# install go and set environment
-RUN apt-get install -y golang-go
-ENV GOPATH /var/jenkins_home/go
-ENV GOBIN $GOPATH/bin
 
 USER jenkins
