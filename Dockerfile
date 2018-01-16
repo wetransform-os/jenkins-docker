@@ -30,9 +30,8 @@ RUN echo "===> Installing python, sudo, and supporting tools..." && \
   \
   \
   echo "===> Installing applications via pip..."   && \
-  pip install --upgrade setuptools                 && \
-  pip install awscli ansible                       && \
   pip install --upgrade setuptools pyasn1          && \
+  pip install awscli ansible                       && \
   \
   \
   echo "===> Removing unused APT resources..."                  && \
