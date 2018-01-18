@@ -11,6 +11,11 @@ RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 581
 # add jenkins user to docker group
 RUN usermod -a -G docker jenkins
 
+# install go and set environment
+RUN apt-get install -y golang-go
+ENV GOPATH /var/jenkins_home/go
+ENV GOBIN $GOPATH/bin
+
 # install ansible
 # libstdc++6 for hale GDAL binding
 # genisoimage for hale macOS DMG image
@@ -27,8 +32,8 @@ RUN echo "===> Installing python, sudo, and supporting tools..." && \
   \
   \
   echo "===> Installing applications via pip..."   && \
-  pip install awscli git+git://github.com/ansible/ansible.git@v2.3.0.0-1 && \
   pip install --upgrade setuptools pyasn1          && \
+  pip install awscli git+git://github.com/ansible/ansible.git@v2.3.0.0-1 && \
   pip install Jinja2==2.8.1                        && \
   \
   \
