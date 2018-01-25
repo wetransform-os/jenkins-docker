@@ -23,12 +23,14 @@ ENV PATH $GOROOT/bin:$GOPATH/bin:$PATH
 
 # install ansible
 # libstdc++6 for hale GDAL binding
+# genisoimage for hale macOS DMG image
+# pin Jinja2 to 2.8.1 b/c of https://github.com/ansible/ansible/issues/20494
 RUN echo "===> Installing python, sudo, and supporting tools..." && \
   apt-get update -y  &&  apt-get install --fix-missing           && \
   DEBIAN_FRONTEND=noninteractive         \
   apt-get install -y                     \
       python python-yaml sudo rsync      \
-      libstdc++6 \
+      libstdc++6 genisoimage \
       curl gcc python-pip python-dev libffi-dev libssl-dev  && \
   apt-get -y --purge remove python-cffi          && \
   pip install --upgrade cffi                     && \
@@ -36,7 +38,8 @@ RUN echo "===> Installing python, sudo, and supporting tools..." && \
   \
   echo "===> Installing applications via pip..."   && \
   pip install --upgrade setuptools pyasn1          && \
-  pip install awscli ansible                       && \
+  pip install awscli git+git://github.com/ansible/ansible.git@v2.3.0.0-1 && \
+  pip install Jinja2==2.8.1                        && \
   \
   \
   echo "===> Removing unused APT resources..."                  && \
