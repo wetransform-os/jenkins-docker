@@ -12,9 +12,14 @@ RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 581
 RUN usermod -a -G docker jenkins
 
 # install go and set environment
-RUN apt-get install -y golang-go
+ENV GO_VERSION 1.9.3
+RUN wget https://storage.googleapis.com/golang/go$GO_VERSION.linux-amd64.tar.gz
+RUN tar -xvf go$GO_VERSION.linux-amd64.tar.gz
+RUN mv go/ /usr/local
+ENV GOROOT /usr/local/go
 ENV GOPATH /var/jenkins_home/go
 ENV GOBIN $GOPATH/bin
+ENV PATH $GOROOT/bin:$GOPATH/bin:$PATH
 
 # install ansible
 # libstdc++6 for hale GDAL binding
