@@ -20,6 +20,11 @@ RUN apt-get install -y docker-ce=$DOCKER_VERSION
 # add jenkins user to docker group
 RUN usermod -a -G docker jenkins
 
+# install chrome for unit & e2e testing
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN dpkg -i google-chrome*.deb; apt-get -fy install
+RUN google-chrome-stable -version
+
 # install go and set environment
 ENV GO_VERSION 1.14.3
 RUN wget https://storage.googleapis.com/golang/go$GO_VERSION.linux-amd64.tar.gz
@@ -48,7 +53,8 @@ RUN echo "===> Installing python, sudo, and supporting tools..." && \
   echo "===> Installing applications via pip..."   && \
   pip uninstall urllib3                            && \
   pip install urllib3==1.22                        && \
-  pip install --upgrade setuptools pyasn1          && \
+  pip install setuptools==46.4.0                   && \
+  pip install --upgrade pyasn1                     && \
   pip install awscli git+git://github.com/ansible/ansible.git@v2.3.0.0-1 && \
   pip install Jinja2==2.8.1                        && \
   \
